@@ -1,4 +1,3 @@
 ---
-- name: "Mock task"
-  ansible.builtin.debug:
-    msg: "hello, world!"
+- name: "Install Prometheus from binary"
+  ansible.builtin.include_tasks: install.yml

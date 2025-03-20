@@ -1,0 +1,55 @@
+---
+- name: "Install prometheus from binary"
+  block:
+    - name: "Check Prometheus version"
+      changed_when: false
+      ansible.builtin.command:
+        cmd: "prometheus --version"
+      register: prometheus_ver
+
+    - name: "Assert version correctness"
+      ansible.builtin.assert:
+        that: "prometheus_ver.stdout is regex('{{ prometheus_version }}')"
+        success_msg: "prometheus version {{ prometheus_version }} is installed and working"
+        fail_msg: "prometheus version {{ prometheus_version }} is not installed or not working correctly"
+
+  rescue:
+    - name: "Create prometheus home directory"
+      ansible.builtin.file:
+        path: "{{ prometheus_dir }}"
+        state: directory
+        owner: "{{ prometheus_user }}"
+        group: "{{ prometheus_group }}"
+        mode: "0755"
+
+    - name: "Download Prometheus binary"
+      ansible.builtin.get_url:
+        url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+        dest: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+        owner: "{{ prometheus_user }}"
+        group: "{{ prometheus_group }}"
+        mode: "0644"
+
+    - name: "Unpack Prometheus binaries"
+      ansible.builtin.unarchive:
+        src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+        dest: "{{ prometheus_dir }}"
+        creates: "{{ prometheus_dir }}/prometheus-{{ prometheus_version }}.linux-amd64"
+        remote_src: true
+
+    - name: "Cleanup downloaded file"
+      ansible.builtin.file:
+        path: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+        state: absent
+
+    - name: "Move official prometheus and promtool binaries"
+      ansible.builtin.copy:
+        src: "{{ prometheus_dir }}/prometheus-{{ prometheus_version }}.linux-amd64/{{ item }}"
+        dest: "/usr/local/bin/{{ item }}"
+        mode: "0755"
+        owner: prometheus
+        group: prometheus
+        remote_src: true
+      with_items:
+        - prometheus
+        - promtool
