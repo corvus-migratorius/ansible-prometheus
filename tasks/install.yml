@@ -56,7 +56,7 @@
 
     - name: "Create config file"
       ansible.builtin.template:
-        src: prometheus.yaml
+        src: prometheus.yml
         dest: "{{ config_dir }}/prometheus.yml"
         owner: "{{ prometheus_user }}"
         group: "{{ prometheus_group }}"
