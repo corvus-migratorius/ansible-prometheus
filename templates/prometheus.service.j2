@@ -8,8 +8,8 @@ User=prometheus
 Group=prometheus
 Type=simple
 ExecStart=/usr/local/bin/prometheus \
-    --config.file /etc/prometheus/prometheus.yml \
-    --storage.tsdb.path /var/lib/prometheus/ 
+    --config.file {{ config_dir }}/prometheus.yml \
+    --storage.tsdb.path {{ db_dir }}/prometheus/ 
 
 [Install]
 WantedBy=multi-user.target

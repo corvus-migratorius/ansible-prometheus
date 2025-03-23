@@ -14,13 +14,17 @@
         fail_msg: "prometheus version {{ prometheus_version }} is not installed or not working correctly"
 
   rescue:
-    - name: "Create prometheus home directory"
+    - name: "Create prometheus directories {{ item }}"
       ansible.builtin.file:
-        path: "{{ prometheus_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ prometheus_user }}"
         group: "{{ prometheus_group }}"
         mode: "0755"
+      with_items:
+        - "{{ config_dir }}"
+        - "{{ prometheus_dir }}"
+        - "{{ db_dir }}"
 
     - name: "Download Prometheus binary"
       ansible.builtin.get_url:
@@ -56,7 +60,7 @@
 
     - name: "Create config file"
       ansible.builtin.template:
-        src: prometheus.yml
+        src: "{{ config_source_dir }}/prometheus.yml"
         dest: "{{ config_dir }}/prometheus.yml"
         owner: "{{ prometheus_user }}"
         group: "{{ prometheus_group }}"
