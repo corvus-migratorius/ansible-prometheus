@@ -73,3 +73,11 @@
         owner: "{{ prometheus_user }}"
         group: "{{ prometheus_group }}"
         mode: "0660"
+
+    - name: "Make sure that the Prometheus are enabled and started"
+      become: true
+      ansible.builtin.systemd:
+        name: prometheus.service
+        state: started
+        enabled: true
+        daemon_reload: true
