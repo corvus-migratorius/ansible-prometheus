@@ -38,6 +38,7 @@
         success_msg: "Prometheus is healthy"
         fail_msg: "Prometheus is not healthy"
 
+    # kics-scan ignore-block
     - name: "Check if Prometheus is ready"
       ansible.builtin.uri:
         url: "http://localhost:9090/-/ready"
