@@ -2,6 +2,7 @@
 Description=Prometheus
 Wants=network-online.target
 After=network-online.target
+Documentation="https://prometheus.io/"
 
 [Service]
 User=prometheus
@@ -11,7 +12,8 @@ ExecStart=/usr/local/bin/prometheus \
     --config.file {{ config_dir }}/prometheus.yml \
     --storage.tsdb.path {{ db_dir }}
     
- # Security hardening
+# Security hardening
+ReadWritePaths={{ db_dir }}
 ProtectSystem=strict
 NoNewPrivileges=true
 PrivateTmp=true
