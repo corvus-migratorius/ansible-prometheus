@@ -1,4 +1,19 @@
 ---
+- name: "Create Prometheus system group"
+  ansible.builtin.group:
+    name: "{{ prometheus_group }}"
+    system: true
+    state: present
+
+- name: "Create Prometheus system user"
+  ansible.builtin.user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    system: true
+    shell: "/sbin/nologin"
+    create_home: false
+    state: present
+
 - name: "Install prometheus from binary"
   block:
     - name: "Check Prometheus version"
@@ -73,7 +88,7 @@
         owner: "{{ prometheus_user }}"
         group: "{{ prometheus_group }}"
         mode: "0660"
-
+  
     - name: "Make sure that the Prometheus are enabled and started"
       become: true
       ansible.builtin.systemd:
