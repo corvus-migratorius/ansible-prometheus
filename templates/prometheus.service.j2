@@ -9,7 +9,17 @@ Group=prometheus
 Type=simple
 ExecStart=/usr/local/bin/prometheus \
     --config.file {{ config_dir }}/prometheus.yml \
-    --storage.tsdb.path {{ db_dir }}/prometheus/ 
-
+    --storage.tsdb.path {{ db_dir }}
+    
+ # Security hardening
+ProtectSystem=strict
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectKernelTunables=true
+ProtectClock=yes
+RestrictSUIDSGID=true
+   
 [Install]
 WantedBy=multi-user.target
