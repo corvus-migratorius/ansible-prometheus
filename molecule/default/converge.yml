@@ -4,4 +4,4 @@
 
   roles:
     - role: genlab.prometheus
-      config_source_dir: prometheus 
+      config_source_dir: prometheus
