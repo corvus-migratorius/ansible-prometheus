@@ -50,6 +50,7 @@
         mode: "0644"
 
     - name: "Unpack Prometheus binaries"
+      notify: "(Re)start Prometheus service"
       ansible.builtin.unarchive:
         src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
         dest: "{{ prometheus_dir }}"
@@ -89,10 +90,5 @@
         group: "{{ prometheus_group }}"
         mode: "0660"
 
-    - name: "Make sure that the Prometheus are enabled and started"
-      become: true
-      ansible.builtin.systemd:
-        name: prometheus.service
-        state: started
-        enabled: true
-        daemon_reload: true
+- name: "Flush handlers"
+  ansible.builtin.meta: "flush_handlers"
