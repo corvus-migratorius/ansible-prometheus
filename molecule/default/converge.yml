@@ -4,4 +4,4 @@
 
   roles:
     - role: genlab.prometheus
-      config_source_dir: molecule/default
+      config_source_dir: prometheus 
