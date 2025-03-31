@@ -82,6 +82,3 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "0660"
-
-- name: "Flush handlers"
-  ansible.builtin.meta: "flush_handlers"

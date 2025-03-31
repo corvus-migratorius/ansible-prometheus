@@ -21,6 +21,3 @@
     mode: "0660"
   with_fileglob:
     - "{{ alertrules_source_dir }}/*.yml"
-
-- name: "Flush handlers"
-  ansible.builtin.meta: "flush_handlers"
