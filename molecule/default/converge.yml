@@ -5,4 +5,4 @@
   roles:
     - role: genlab.prometheus
       config_source_dir: prometheus
-      alertrules_source_dir: prometheus
+      alertrules_source_dir: prometheus/rules
