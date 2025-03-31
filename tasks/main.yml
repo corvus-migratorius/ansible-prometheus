@@ -4,3 +4,11 @@
 
 - name: "Configure and add alert rules"
   ansible.builtin.include_tasks: configure.yml
+
+- name: "Ensure prometheus service is started and enabled"
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: prometheus.service
+    state: started
+    enabled: true
