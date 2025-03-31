@@ -1,0 +1,19 @@
+---
+- name: "Copy config file"
+  notify: "(Re)start Prometheus service"
+  ansible.builtin.copy:
+    src: "{{ config_source_dir }}/prometheus.yml"
+    dest: "{{ config_dir }}/prometheus.yml"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "0660"
+
+- name: "Copy alert rules"
+  notify: "(Re)start Prometheus service"
+  when: alertrules_source_dir is defined
+  ansible.builtin.copy:
+    src: "{{ alertrules_source_dir }}/alertrules.yml"
+    dest: "{{ config_dir }}/prometheus.yml"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "0660"

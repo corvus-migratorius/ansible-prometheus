@@ -1,3 +1,6 @@
 ---
 - name: "Install Prometheus from binary"
   ansible.builtin.include_tasks: install.yml
+
+- name: "Configure and add alert rules"
+  ansible.builtin.include_tasks: configure.yml
