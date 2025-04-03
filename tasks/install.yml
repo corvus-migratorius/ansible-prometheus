@@ -74,21 +74,11 @@
         - prometheus
         - promtool
 
-    - name: "Create config file"
-      ansible.builtin.template:
-        src: "{{ config_source_dir }}/prometheus.yml"
-        dest: "{{ config_dir }}/prometheus.yml"
-        owner: "{{ prometheus_user }}"
-        group: "{{ prometheus_group }}"
-        mode: "0660"
-
-    - name: "Create systemd service unit"
-      ansible.builtin.template:
-        src: prometheus.service.j2
-        dest: /etc/systemd/system/prometheus.service
-        owner: "{{ prometheus_user }}"
-        group: "{{ prometheus_group }}"
-        mode: "0660"
-
-- name: "Flush handlers"
-  ansible.builtin.meta: "flush_handlers"
+- name: "Create systemd service unit"
+  notify: "(Re)start Prometheus service"
+  ansible.builtin.template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "0660"
