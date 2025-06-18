@@ -10,7 +10,8 @@ Group=prometheus
 Type=simple
 ExecStart=/usr/local/bin/prometheus \
     --config.file {{ config_dir }}/prometheus.yml \
-    --storage.tsdb.path {{ db_dir }}
+    --storage.tsdb.path {{ db_dir }} \
+    --storage.tsdb.retention.time=30d
     
 # Security hardening
 ReadWritePaths={{ db_dir }}
