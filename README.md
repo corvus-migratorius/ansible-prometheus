@@ -1,13 +1,9 @@
-template
+genlab.prometheus
 =========
 
-Template for Ansible role monorepos.
+This ansible role installs [Prometheus](https://github.com/prometheus/prometheus) from binary distribution. Prometheus is a systems and service monitoring system. It collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts when specified conditions are observed.
 
-⚠️ Do not forget to update:
-
-- `meta/main.yml`
-- Conda/Mamba manifests
-- this README =) including *the name at the top* and *maintainers*.
+Prometheus config files and rules should be placed in separate directories on source. They must have '*.yml' suffix. You'll need to manually specify the paths to your rule files in the main Prometheus configuration file (prometheus.yml) on the target machine.
 
 Requirements
 ------------
@@ -16,8 +12,16 @@ None
 
 Role Variables
 --------------
-
-None
+```
+prometheus_version: 3.2.1 #prometheus version
+prometheus_dir: "/etc/prometheus" # where to install prometheus
+prometheus_user: prometheus # user name
+prometheus_group: prometheus # groups name
+config_dir: "/etc/prometheus/conf"
+db_dir: "/var/lib/prometheus" # where to store prometheus db
+config_source_dir: prometheus # path to config files on source
+alertrules_source_dir: prometheus/rules # path to rule files  on source
+```
 
 Dependencies
 ------------
@@ -29,7 +33,10 @@ Example Playbook
 
 ```yaml
 roles:
-    - role: genlab.template
+    - role: genlab.prometheus
+      config_source_dir: mydir/configs
+      alertrules_source_dir: mydir/configs/rules
+      prometheus_version: 3.2.1
 ```
 
 License
