@@ -17,7 +17,7 @@ prometheus_version: 3.2.1 #prometheus version
 prometheus_dir: "/etc/prometheus" # where to install prometheus
 prometheus_user: prometheus # user name
 prometheus_group: prometheus # groups name
-config_dir: "/etc/prometheus/conf"
+config_dir: "/etc/prometheus/conf" # where to place prometheus config
 db_dir: "/var/lib/prometheus" # where to store prometheus db
 config_source_dir: prometheus # path to config files on source
 alertrules_source_dir: prometheus/rules # path to rule files  on source
